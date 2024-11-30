@@ -1,0 +1,45 @@
+document.getElementById("studentForm").addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const formData = new FormData(event.target);
+
+  const nims = formData.getAll("nim[]").map((val) => parseInt(val));
+  const names = formData.getAll("name[]");
+  const genders = formData.getAll("gender[]");
+  const birthDates = formData.getAll("birthDate[]");
+  const cities = formData.getAll("city[]");
+  const yearsOfEntry = formData.getAll("yearOfEntry[]").map((val) => parseInt(val));
+  const studyPrograms = formData.getAll("studyProgram[]");
+  const gpas = formData.getAll("gpa[]").map((val) => parseFloat(val));
+
+  const payload = {
+    nims,
+    names,
+    genders,
+    birthDates,
+    cities,
+    yearsOfEntry,
+    studyPrograms,
+    gpas,
+  };
+
+  try {
+    const response = await fetch("http://localhost:3000/add-students", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    if (response.ok) {
+      alert("Students added successfully");
+    } else {
+      const error = await response.json();
+      console.error(error);
+      alert("Failed to add students");
+    }
+  } catch (error) {
+    console.error(error);
+    alert("An error occurred while adding students");
+  }
+});
+
