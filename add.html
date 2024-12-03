@@ -10,7 +10,7 @@
 <body>
     <div class="container mt-5">
         <h2 class="text-center">Add Student</h2>
-        <form id="studentForm">
+	<form id="studentForm" method="POST" action="http://localhost:3000/addStudent">
             <div class="row mb-3">
                 <div class="col-md-3">
                     <input type="text" class="form-control" placeholder="NIM" name="nim" required>
@@ -44,7 +44,25 @@
         <div id="status" class="mt-3"></div>
     </div>
 
-    <script src="add.js"></script>
+    <!--<script src="add.js"></script>-->
+    <script>
+    document.getElementById('studentForm').addEventListener('submit', (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const jsonData = Object.fromEntries(formData.entries());
+
+        fetch('http://localhost:3000/addStudent', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(jsonData)
+        })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error('Error:', error));
+    });
+</script>
 </body>
 </html>
 

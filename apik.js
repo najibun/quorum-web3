@@ -1,10 +1,11 @@
 const contractAddress = "0x1932c48b2bf8102ba33b4a6b545c32236e342f34"; // Replace with your contract address
 const contractABI = [{"anonymous":false,"name":"StudentAddedOrUpdated","inputs":[{"indexed":false,"name":"nim","type":"uint256","internalType":"uint256"},{"indexed":false,"name":"name","type":"string","internalType":"string"}],"type":"event","payable":false},{"constant":false,"name":"addStudent","inputs":[{"name":"_nim","type":"uint256","internalType":"uint256"},{"name":"_name","type":"string","internalType":"string"},{"name":"_gender","type":"string","internalType":"string"},{"name":"_birthDate","type":"string","internalType":"string"},{"name":"_city","type":"string","internalType":"string"},{"name":"_yearOfEntry","type":"uint256","internalType":"uint256"},{"name":"_program","type":"string","internalType":"string"},{"name":"_gpa","type":"uint256","internalType":"uint256"}],"outputs":[],"type":"function","payable":false,"stateMutability":"nonpayable"},{"constant":false,"name":"getStudent","inputs":[{"name":"_nim","type":"uint256","internalType":"uint256"}],"outputs":[{"name":"","type":"string","internalType":"string"},{"name":"","type":"uint256","internalType":"uint256"},{"name":"","type":"string","internalType":"string"},{"name":"","type":"string","internalType":"string"},{"name":"","type":"string","internalType":"string"},{"name":"","type":"uint256","internalType":"uint256"},{"name":"","type":"string","internalType":"string"},{"name":"","type":"uint256","internalType":"uint256"}],"type":"function","payable":false,"stateMutability":"view"},{"constant":false,"name":"studentCount","inputs":[],"outputs":[{"name":"","type":"uint256","internalType":"uint256"}],"type":"function","payable":false,"stateMutability":"view"},{"constant":false,"name":"students","inputs":[{"name":"","type":"uint256","internalType":"uint256"}],"outputs":[{"name":"name","type":"string","internalType":"string"},{"name":"nim","type":"uint256","internalType":"uint256"},{"name":"gender","type":"string","internalType":"string"},{"name":"birthDate","type":"string","internalType":"string"},{"name":"city","type":"string","internalType":"string"},{"name":"yearOfEntry","type":"uint256","internalType":"uint256"},{"name":"program","type":"string","internalType":"string"},{"name":"gpa","type":"uint256","internalType":"uint256"}],"type":"function","payable":false,"stateMutability":"view"}];
 
-let web3 = new Web3("http://10.17.5.103:22000"); // RPC URL of your Quorum node
+let web3 = new Web3("http://10.17.5.104:22000"); // RPC URL of your Quorum 4 nodes
+// let web3 = new Web3("http://139.180.134.97/node1/"); // RPC URL of your Quorum 7 nodes
 const contract = new web3.eth.Contract(contractABI, contractAddress);
 
-async function getStudent() {
+/*async function getStudent() {
   const nim = document.getElementById("nim").value;
   
   try {
@@ -36,13 +37,14 @@ async function getStudent() {
     console.error("Error retrieving student:", error);
     document.getElementById("studentDetails").innerHTML = "Error retrieving student data";
   }
-};
+};*/
 
 // Handle student data update
 document.getElementById("updateForm").addEventListener("submit", async (event) => {
   event.preventDefault();
 
   const nim = document.getElementById("nim").value;
+  document.getElementById("yearOfEntry").disabled = false;
   const name = document.getElementById("name").value;
   const gender = document.getElementById("gender").value;
   const birthDate = document.getElementById("birthDate").value;
@@ -53,10 +55,16 @@ document.getElementById("updateForm").addEventListener("submit", async (event) =
 
   try {
     const accounts = await web3.eth.getAccounts();
-    await contract.methods.addStudent(
+ console.log(accounts); 
+// Loop for 100 block
+// for(let i=0; i<200; i++){
+ await contract.methods.addStudent(
       nim, name, gender, birthDate, city, yearOfEntry, studyProgram, gpa
-    ).send({ from: accounts[0] });
-
+    ).send({ from: accounts[0], gas: '1000000', gasPrice:0 });
+// }
+// End Loop
+   hideDetail();
+   disableEdit();
    alert("Student updated successfully");
   } catch (error) {
     console.error(error);
@@ -73,6 +81,13 @@ function getStudent() {
     // Assume web3 and contract initialization is done
     contract.methods.getStudent(nim).call()
       .then(data => {
+	if (data[1]==0){
+	alert("Data tidak ditemukan");
+	hideDetail();
+	disableEdit();
+	}else{
+	// Show student Detail
+	showDetail();
         studentData = {
           nim: data[1],
           name: data[0],
@@ -93,9 +108,13 @@ function getStudent() {
           Program: ${data[6]}<br>
           GPA: ${data[7]}
         `;
-        
+
+	// Hide Form Edit
+	disableEdit(); 
+       
         // Show the edit button
         document.getElementById("editButton").style.display = "block";
+	}
       })
       .catch(error => {
         console.error(error);
@@ -127,8 +146,19 @@ function enableEdit() {
   document.getElementById("gpa").disabled = false;
   document.querySelector("button[type='submit']").disabled = false;
 }
-
-document.getElementById("updateForm").addEventListener("submit", function (event) {
+function disableEdit() {
+  // Hide the form and enable inputs
+  document.getElementById("editForm").style.display = "none";
+}
+function showDetail() {
+  // Show the form and enable inputs
+  document.getElementById("studentInfo").style.display = "block";
+}
+function hideDetail() {
+  // Hide the form and enable inputs
+  document.getElementById("studentInfo").style.display = "none";
+}
+/*document.getElementById("updateForm").addEventListener("submit", function (event) {
   event.preventDefault();
 
   const updatedData = {
@@ -151,7 +181,7 @@ document.getElementById("updateForm").addEventListener("submit", function (event
     updatedData.yearOfEntry, 
     updatedData.program, 
     updatedData.gpa
-  ).send({ from: web3.eth.accounts[0] })
+  ).send({ from: web3.eth.accounts[1] })
     .then(() => {
       alert("Student info updated successfully.");
       document.getElementById("editForm").style.display = "none";
@@ -160,5 +190,5 @@ document.getElementById("updateForm").addEventListener("submit", function (event
       console.error(error);
       alert("Failed to update student info.");
     });
-});
+});*/
 
