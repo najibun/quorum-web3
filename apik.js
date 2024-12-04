@@ -88,3 +88,37 @@ document.getElementById("updateForm").addEventListener("submit", async (event) =
   }
 });
 
+function enableEdit() {
+  // Fill the form with the fetched data
+  document.getElementById("name").value = studentData.name;
+  document.getElementById("gender").value = studentData.gender;
+  document.getElementById("birthDate").value = studentData.birthDate;
+  document.getElementById("city").value = studentData.city;
+  document.getElementById("yearOfEntry").value = studentData.yearOfEntry;
+  document.getElementById("studyProgram").value = studentData.studyProgram;
+  document.getElementById("gpa").value = studentData.gpa;
+
+  // Show the form and enable inputs
+  document.getElementById("editForm").style.display = "block";
+  document.getElementById("name").disabled = false;
+  document.getElementById("gender").disabled = false;
+  document.getElementById("birthDate").disabled = false;
+  document.getElementById("city").disabled = false;
+  document.getElementById("yearOfEntry").disabled = false;
+  document.getElementById("studyProgram").disabled = false;
+  document.getElementById("gpa").disabled = false;
+  document.querySelector("button[type='submit']").disabled = false;
+}
+
+function disableEdit() {
+  // Hide the form and enable inputs
+  document.getElementById("editForm").style.display = "none";
+}
+function showDetail() {
+  // Show the form and enable inputs
+  document.getElementById("studentInfo").style.display = "block";
+}
+function hideDetail() {
+  // Hide the form and enable inputs
+  document.getElementById("studentInfo").style.display = "none";
+}
