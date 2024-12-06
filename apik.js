@@ -91,6 +91,7 @@ document.getElementById("updateForm").addEventListener("submit", async (event) =
     // Show get button
     document.getElementById("getButton").style.display = "block";
     document.getElementById("studentInfo").style.display = "none";
+    document.getElementById("statusBar").style.display = "none";
     hideEditBtn();
     hideDetail();
     disableEdit();
@@ -121,6 +122,15 @@ function enableEdit() {
   document.getElementById("gpa").disabled = false;
   document.querySelector("button[type='submit']").disabled = false;
   document.querySelector("button[type='button']").disabled = false;
+
+  // Hide yang ga perlu
+  document.getElementById("studentInfo").style.display = "none";
+  document.getElementById("getButton").style.display = "none";
+  document.getElementById("editButton").style.display = "none";
+
+  // Memunculkan statusBar
+  document.getElementById("statusBar").style.display = "block";
+  document.getElementById("statusBar").innerText = "Update your data:";
 }
 
 function addStudent() {
@@ -149,7 +159,10 @@ function addStudent() {
   document.getElementById("studentInfo").style.display = "none";
   document.getElementById("getButton").style.display = "none";
   document.getElementById("addButton").style.display = "none";
-  
+ 
+  // Memunculkan statusBar
+  document.getElementById("statusBar").style.display = "block";
+  document.getElementById("statusBar").innerText = "Add new data:"; 
 }
 
 function disableEdit() {

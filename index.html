@@ -11,6 +11,7 @@
   <div class="container mt-5">
     <h2>Student Information dApps</h2>
     <div class="mb-3">
+      <h5 id="statusBar" class="text-muted" style="display: none;"></h5>
       <label for="nim" class="form-label">Enter NIM</label>
       <input type="number" class="form-control" id="nim" placeholder="Enter NIM">
     </div>
@@ -29,31 +30,31 @@
       <form id="updateForm">
         <div class="mb-3">
           <label for="name" class="form-label">Name</label>
-          <input type="text" class="form-control" id="name" disabled>
+          <input type="text" class="form-control" id="name" placeholder="Enter Name" disabled>
         </div>
         <div class="mb-3">
           <label for="gender" class="form-label">Gender</label>
-          <input type="text" class="form-control" id="gender" disabled>
+          <input type="text" class="form-control" id="gender" placeholder="Enter Gender" disabled>
         </div>
         <div class="mb-3">
-          <label for="birthDate" class="form-label">Birth Date</label>
-          <input type="text" class="form-control" id="birthDate" disabled>
+          <label for="birthDate" class="form-label">Birth Date (DDMMYYYY)</label>
+          <input type="text" class="form-control" id="birthDate" placeholder="Enter Birth Date (ex.20051976)" disabled>
         </div>
         <div class="mb-3">
           <label for="city" class="form-label">City</label>
-          <input type="text" class="form-control" id="city" disabled>
+          <input type="text" class="form-control" id="city" placeholder="Enter City" disabled>
         </div>
         <div class="mb-3">
           <label for="yearOfEntry" class="form-label">Year of Entry</label>
-          <input type="number" class="form-control" id="yearOfEntry" disabled>
+          <input type="number" class="form-control" id="yearOfEntry" placeholder="Enter Year of Entry" disabled>
         </div>
         <div class="mb-3">
           <label for="studyProgram" class="form-label">Study Program</label>
-          <input type="text" class="form-control" id="studyProgram" disabled>
+          <input type="text" class="form-control" id="studyProgram" placeholder="Enter Study Program" disabled>
         </div>
         <div class="mb-3">
           <label for="gpa" class="form-label">GPA</label>
-          <input type="number" class="form-control" id="gpa" step="0.1" disabled>
+          <input type="number" class="form-control" id="gpa" step="0.1" placeholder="Enter GPA" disabled>
         </div>
         <button type="submit" class="btn btn-success" disabled>Update Student</button>
 	<button type="button" class="btn btn-dark" disabled onclick="cancelBtn()" >Cancel</button>
