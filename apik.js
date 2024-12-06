@@ -202,4 +202,3 @@ function cancelBtn() {
     console.log("Stay on the current page.");
   }
 }
-
